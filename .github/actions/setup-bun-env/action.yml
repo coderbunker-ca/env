@@ -41,7 +41,7 @@ runs:
       shell: bash
       run: |
         cd "${{ inputs.working_directory }}"
-        if [ -f "bun.lockb" ]; then
+        if [ -f "bun.lock" ]; then
           bun install --frozen-lockfile
         elif [ -f "package-lock.json" ]; then
           npm ci
