@@ -27,39 +27,30 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Check OIDC Token Availability
-      shell: bash
-      run: |
-        if [ -z "$ACTIONS_ID_TOKEN_REQUEST_URL" ]; then
-          echo "Error: OIDC token generation is not available."
-          echo "Please ensure the workflow has 'permissions: id-token: write'."
-          exit 1
-        fi
+    - name: Generate Tags
+      id: meta
+      uses: coderbunker/modern-resume-env/.github/actions/docker-tag-generator@develop
+      with:
+        new_release_version: ${{ inputs.version }}
+        is_new_release: ${{ inputs.is_new_release }}
 
     - name: Push and Sign
       shell: bash
       env:
         IMAGE_NAME: ${{ inputs.remote_image }}
-        VERSION: ${{ inputs.version }}
         LOCAL_IMAGE: ${{ inputs.local_image }}
         TAG_SUFFIX: ${{ inputs.tag_suffix }}
+        TAGS: ${{ steps.meta.outputs.tags }}
         COSIGN_YES: "true"
       run: |
-        SHORT_SHA=$(git rev-parse --short HEAD)
+        # The generator returns tags in format: type=raw,value=TAG
+        # We need to extract just the TAG values
+        CLEAN_TAGS=$(echo -e "$TAGS" | grep "type=raw,value=" | cut -d '=' -f 3)
 
-        # Tag and push version
-        docker tag "$LOCAL_IMAGE" "$IMAGE_NAME:$VERSION$TAG_SUFFIX"
-        docker push "$IMAGE_NAME:$VERSION$TAG_SUFFIX"
-        cosign sign "$IMAGE_NAME:$VERSION$TAG_SUFFIX"
-
-        # Tag and push SHA
-        docker tag "$LOCAL_IMAGE" "$IMAGE_NAME:$SHORT_SHA$TAG_SUFFIX"
-        docker push "$IMAGE_NAME:$SHORT_SHA$TAG_SUFFIX"
-        cosign sign "$IMAGE_NAME:$SHORT_SHA$TAG_SUFFIX"
-
-        # Push 'latest' if requested
-        if [ "${{ inputs.push_latest }}" = "true" ] && [ "${{ github.ref }}" = "refs/heads/main" ] && [ "${{ inputs.is_new_release }}" = "true" ]; then
-          docker tag "$LOCAL_IMAGE" "$IMAGE_NAME:latest$TAG_SUFFIX"
-          docker push "$IMAGE_NAME:latest$TAG_SUFFIX"
-          cosign sign "$IMAGE_NAME:latest$TAG_SUFFIX"
-        fi
+        for TAG in $CLEAN_TAGS; do
+          FULL_IMAGE="${IMAGE_NAME}:${TAG}${TAG_SUFFIX}"
+          echo "Processing tag: $FULL_IMAGE"
+          docker tag "$LOCAL_IMAGE" "$FULL_IMAGE"
+          docker push "$FULL_IMAGE"
+          cosign sign "$FULL_IMAGE"
+        done
