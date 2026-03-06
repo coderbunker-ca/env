@@ -14,6 +14,9 @@ outputs:
   tags:
     description: "Generated tags for docker/metadata-action"
     value: ${{ steps.gen.outputs.tags }}
+  primary_tag:
+    description: "The primary environment-specific tag (e.g. 1.2.3-rc-build-42)"
+    value: ${{ steps.gen.outputs.primary_tag }}
 
 runs:
   using: "composite"
@@ -29,23 +32,27 @@ runs:
         fi
 
         TAGS=""
+        PRIMARY_TAG=""
         RUN_ID="${{ github.run_number }}"
 
         # 1. Pull Request (Dev)
         if [[ "${{ github.event_name }}" == "pull_request" ]]; then
           PR_NUM="${{ github.event.pull_request.number }}"
-          TAGS="type=raw,value=${VERSION}-pr-${PR_NUM}-build-${RUN_ID}\n$TAGS"
+          PRIMARY_TAG="${VERSION}-pr-${PR_NUM}-build-${RUN_ID}"
+          TAGS="type=raw,value=${PRIMARY_TAG}\n$TAGS"
         fi
 
         # 2. Release Candidate (Staging - from develop branch)
         if [[ "${{ github.ref_name }}" == "develop" && "${{ github.event_name }}" != "pull_request" ]]; then
-          TAGS="type=raw,value=${VERSION}-rc-build-${RUN_ID}\n$TAGS"
+          PRIMARY_TAG="${VERSION}-rc-build-${RUN_ID}"
+          TAGS="type=raw,value=${PRIMARY_TAG}\n$TAGS"
           TAGS="type=raw,value=latest-staging\n$TAGS"
         fi
 
         # 3. Production Release (from main branch)
         if [[ "${{ github.ref_name }}" == "main" && "${{ inputs.is_new_release }}" == "true" ]]; then
-          TAGS="type=raw,value=${VERSION}-build-${RUN_ID}\n$TAGS"
+          PRIMARY_TAG="${VERSION}-build-${RUN_ID}"
+          TAGS="type=raw,value=${PRIMARY_TAG}\n$TAGS"
           TAGS="type=raw,value=${VERSION}\n$TAGS"
           TAGS="type=raw,value=latest-prod\n$TAGS"
         fi
@@ -55,7 +62,13 @@ runs:
         TAGS="type=raw,value=sha-${SHORT_SHA}\n$TAGS"
         TAGS="type=raw,value=build-${RUN_ID}\n$TAGS"
 
+        # If no primary tag was set (e.g. ad-hoc branch), use the build-ID
+        if [[ -z "$PRIMARY_TAG" ]]; then
+          PRIMARY_TAG="build-${RUN_ID}"
+        fi
+
         # Output tags
         echo "tags<<EOF" >> "$GITHUB_OUTPUT"
         echo -e "$TAGS" >> "$GITHUB_OUTPUT"
         echo "EOF" >> "$GITHUB_OUTPUT"
+        echo "primary_tag=$PRIMARY_TAG" >> "$GITHUB_OUTPUT"

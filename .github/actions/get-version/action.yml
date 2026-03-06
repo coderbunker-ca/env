@@ -13,15 +13,20 @@ runs:
       id: version
       shell: bash
       run: |
-        SHORT_SHA=$(git rev-parse --short HEAD)
-
-        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-          VERSION="pr-${{ github.event.pull_request.number }}-build-${{ github.run_number }}"
-        elif [[ "${{ github.ref_name }}" == "develop" ]]; then
-          VERSION="develop-build-${{ github.run_number }}"
-        else
-          VERSION="sha-${SHORT_SHA}"
+        if [ ! -f "package.json" ]; then
+          echo "error: package.json not found in $(pwd)"
+          echo "version=0.0.0" >> "$GITHUB_OUTPUT"
+          exit 0
         fi
 
-        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-        echo "Determined version: $VERSION"
+        BASE_VERSION=$(jq -r .version package.json)
+        if [ "$BASE_VERSION" == "null" ] || [ -z "$BASE_VERSION" ]; then
+          echo "warning: version not found in package.json, defaulting to 0.0.0"
+          BASE_VERSION="0.0.0"
+        fi
+
+        # Remove any existing pre-release suffixes for consistency
+        CLEAN_VERSION=$(echo "$BASE_VERSION" | cut -d '-' -f 1)
+
+        echo "version=$CLEAN_VERSION" >> "$GITHUB_OUTPUT"
+        echo "Determined base version: $CLEAN_VERSION"

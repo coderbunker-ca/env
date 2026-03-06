@@ -40,6 +40,7 @@ jobs:
     runs-on: self-hosted-nix
     outputs:
       tags: ${{ steps.meta.outputs.tags }}
+      primary_tag: ${{ steps.tagger.outputs.primary_tag }}
       image_name: w90vyjm8.c1.bhs5.container-registry.ovh.net/${{ inputs.image_path }}
     if: |
       inputs.force_build || (
