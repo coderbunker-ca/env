@@ -39,18 +39,18 @@ runs:
         SHORT_SHA=$(git rev-parse --short HEAD)
 
         # Tag and push version
-        docker tag "$LOCAL_IMAGE:latest" "$IMAGE_NAME:$VERSION$TAG_SUFFIX"
+        docker tag "$LOCAL_IMAGE" "$IMAGE_NAME:$VERSION$TAG_SUFFIX"
         docker push "$IMAGE_NAME:$VERSION$TAG_SUFFIX"
         cosign sign "$IMAGE_NAME:$VERSION$TAG_SUFFIX"
 
         # Tag and push SHA
-        docker tag "$LOCAL_IMAGE:latest" "$IMAGE_NAME:$SHORT_SHA$TAG_SUFFIX"
+        docker tag "$LOCAL_IMAGE" "$IMAGE_NAME:$SHORT_SHA$TAG_SUFFIX"
         docker push "$IMAGE_NAME:$SHORT_SHA$TAG_SUFFIX"
         cosign sign "$IMAGE_NAME:$SHORT_SHA$TAG_SUFFIX"
 
         # Push 'latest' if requested
         if [ "${{ inputs.push_latest }}" = "true" ] && [ "${{ github.ref }}" = "refs/heads/main" ] && [ "${{ inputs.is_new_release }}" = "true" ]; then
-          docker tag "$LOCAL_IMAGE:latest" "$IMAGE_NAME:latest$TAG_SUFFIX"
+          docker tag "$LOCAL_IMAGE" "$IMAGE_NAME:latest$TAG_SUFFIX"
           docker push "$IMAGE_NAME:latest$TAG_SUFFIX"
           cosign sign "$IMAGE_NAME:latest$TAG_SUFFIX"
         fi
