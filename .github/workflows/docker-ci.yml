@@ -92,3 +92,8 @@ jobs:
             GIT_SHA=${{ github.sha }}
           secrets: |
             NODE_AUTH_TOKEN=${{ secrets.NODE_AUTH_TOKEN }}
+
+      - name: Annotate Image
+        shell: bash
+        run: |
+          echo "::notice title=Container Image::w90vyjm8.c1.bhs5.container-registry.ovh.net/${{ inputs.image_path }}:${{ steps.tagger.outputs.primary_tag }}"
