@@ -1,0 +1,56 @@
+name: Docker Push and Sign
+description: Tags, pushes, and signs Docker images with multiple tags.
+
+inputs:
+  local_image:
+    description: Name of the local image to push
+    required: true
+  remote_image:
+    description: Full name of the remote image (including registry)
+    required: true
+  version:
+    description: Version tag to use
+    required: true
+  tag_suffix:
+    description: Optional suffix for tags (e.g. -worker)
+    required: false
+    default: ""
+  push_latest:
+    description: Whether to push 'latest' tag (only on main branch releases)
+    required: false
+    default: "false"
+  is_new_release:
+    description: Whether this is a new published release
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Push and Sign
+      shell: bash
+      env:
+        IMAGE_NAME: ${{ inputs.remote_image }}
+        VERSION: ${{ inputs.version }}
+        LOCAL_IMAGE: ${{ inputs.local_image }}
+        TAG_SUFFIX: ${{ inputs.tag_suffix }}
+        COSIGN_YES: "true"
+      run: |
+        SHORT_SHA=$(git rev-parse --short HEAD)
+
+        # Tag and push version
+        docker tag "$LOCAL_IMAGE:latest" "$IMAGE_NAME:$VERSION$TAG_SUFFIX"
+        docker push "$IMAGE_NAME:$VERSION$TAG_SUFFIX"
+        cosign sign "$IMAGE_NAME:$VERSION$TAG_SUFFIX"
+
+        # Tag and push SHA
+        docker tag "$LOCAL_IMAGE:latest" "$IMAGE_NAME:$SHORT_SHA$TAG_SUFFIX"
+        docker push "$IMAGE_NAME:$SHORT_SHA$TAG_SUFFIX"
+        cosign sign "$IMAGE_NAME:$SHORT_SHA$TAG_SUFFIX"
+
+        # Push 'latest' if requested
+        if [ "${{ inputs.push_latest }}" = "true" ] && [ "${{ github.ref }}" = "refs/heads/main" ] && [ "${{ inputs.is_new_release }}" = "true" ]; then
+          docker tag "$LOCAL_IMAGE:latest" "$IMAGE_NAME:latest$TAG_SUFFIX"
+          docker push "$IMAGE_NAME:latest$TAG_SUFFIX"
+          cosign sign "$IMAGE_NAME:latest$TAG_SUFFIX"
+        fi

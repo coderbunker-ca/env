@@ -1,0 +1,15 @@
+name: Docker Log Actual Image Size
+description: Fetches and reports the actual compressed image size from the registry.
+
+inputs:
+  image:
+    description: Full image tag to check (e.g. registry/repo:tag)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Run Size Logging
+      shell: bash
+      run: |
+        ${{ github.action_path }}/../../../scripts/docker-log-size.sh "${{ inputs.image }}"

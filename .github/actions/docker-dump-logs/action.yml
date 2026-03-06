@@ -1,0 +1,19 @@
+name: Docker Dump Service Logs
+description: Dumps docker compose logs for a specific service on failure.
+
+inputs:
+  service_name:
+    description: Name of the service to dump logs for
+    required: true
+  compose_file:
+    description: Path to the docker-compose.yml file
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Dump Logs
+      shell: bash
+      run: |
+        echo "Dumping logs for ${{ inputs.service_name }}..."
+        docker compose -f ${{ inputs.compose_file }} logs
