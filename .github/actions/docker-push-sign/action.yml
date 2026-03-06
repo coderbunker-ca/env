@@ -37,8 +37,11 @@ inputs:
 
 outputs:
   primary_tag:
-    description: "The primary environment-specific tag (e.g. 1.2.3-rc-build-42)"
-    value: ${{ steps.meta.outputs.primary_tag }}
+    description: "The main environment-specific tag generated (e.g. 1.2.3-rc-build-456)"
+    value: ${{ steps.tagger.outputs.primary_tag }}
+  image_ref:
+    description: "Full image reference with registry and primary tag"
+    value: ${{ steps.image_ref_step.outputs.image_ref }}
 
 runs:
   using: composite
@@ -53,11 +56,32 @@ runs:
         fi
 
     - name: Generate Tags
-      id: meta
+      id: tagger
       uses: coderbunker/modern-resume-env/.github/actions/docker-tag-generator@develop
       with:
         new_release_version: ${{ inputs.version }}
         is_new_release: ${{ inputs.is_new_release }}
+
+    - name: Set Image Reference Output
+      id: image_ref_step
+      shell: bash
+      env:
+        REGISTRY: ${{ inputs.registry }}
+        REGISTRY_PATH: ${{ inputs.registry_path }}
+        IMAGE_NAME_INPUT: ${{ inputs.image_name }}
+        REMOTE_IMAGE_FULL: ${{ inputs.remote_image }}
+      run: |
+        # Construct full image name if not explicitly provided
+        if [ -n "$REMOTE_IMAGE_FULL" ]; then
+          IMAGE_NAME="$REMOTE_IMAGE_FULL"
+        else
+          IMAGE_NAME="${REGISTRY}/${REGISTRY_PATH}/${IMAGE_NAME_INPUT}"
+        fi
+
+        echo "Using image name: $IMAGE_NAME"
+
+        PRIMARY_TAG="${{ steps.tagger.outputs.primary_tag }}"
+        echo "image_ref=${IMAGE_NAME}:${PRIMARY_TAG}" >> "$GITHUB_OUTPUT"
 
     - name: Push and Sign
       shell: bash
@@ -68,7 +92,7 @@ runs:
         REMOTE_IMAGE_FULL: ${{ inputs.remote_image }}
         LOCAL_IMAGE: ${{ inputs.local_image }}
         TAG_SUFFIX: ${{ inputs.tag_suffix }}
-        TAGS: ${{ steps.meta.outputs.tags }}
+        TAGS: ${{ steps.tagger.outputs.tags }}
         COSIGN_YES: "true"
       run: |
         # Construct full image name if not explicitly provided
