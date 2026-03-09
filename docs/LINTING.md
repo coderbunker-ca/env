@@ -2,7 +2,7 @@
 
 We aim for consistent, fast, and unified linting across all repositories in the Modern Resume ecosystem.
 
-## 核心理念 (Core Philosophy)
+## Core Philosophy
 
 1. **Centralized Rules**: Base linting rules are defined in `modern-resume-env`.
 2. **Local/CI Parity**: Linting runs identically on a developer's machine via `pre-commit` and in GitHub Actions via `setup-env`.
