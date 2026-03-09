@@ -19,7 +19,7 @@ jobs:
           repository: coderbunker/modern-resume-env
           token: ${{ secrets.GITHUB_TOKEN }}
           path: env-repo
-          ref: main
+          ref: develop
 
       - name: Setup Environment
         uses: ./env-repo/.github/actions/setup-env
