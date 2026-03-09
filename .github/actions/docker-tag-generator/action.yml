@@ -14,6 +14,9 @@ outputs:
   tags:
     description: "Generated tags for docker/metadata-action"
     value: ${{ steps.gen.outputs.tags }}
+  primary_tag:
+    description: "The primary environment-specific tag (e.g. 1.2.3-rc-build-42)"
+    value: ${{ steps.gen.outputs.primary_tag }}
 
 runs:
   using: "composite"
@@ -22,36 +25,59 @@ runs:
       id: gen
       shell: bash
       run: |
-        TAGS=""
-
-        # 1. Semantic Release Tag (Stable)
-        if [[ "${{ inputs.is_new_release }}" == "true" ]]; then
-          TAGS="type=raw,value=${{ inputs.new_release_version }}\n$TAGS"
-          TAGS="type=raw,value=latest-prod\n$TAGS"
+        VERSION="${{ inputs.new_release_version }}"
+        # Fallback if version is missing
+        if [[ -z "$VERSION" || "$VERSION" == "null" ]]; then
+          if [[ -f package.json ]]; then
+            VERSION=$(grep '"version":' package.json | cut -d '"' -f 4 || true)
+          fi
+          if [[ -z "$VERSION" ]]; then
+            VERSION="0.0.0"
+          fi
         fi
 
-        # 2. Develop Branch Tag
-        if [[ "${{ github.ref_name }}" == "develop" ]]; then
-          TAGS="type=raw,value=develop-build-${{ github.run_number }}\n$TAGS"
+        TAGS=""
+        PRIMARY_TAG=""
+        RUN_ID="${{ github.run_number }}"
+
+        # 1. Pull Request (Dev)
+        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          PR_NUM="${{ github.event.pull_request.number }}"
+          PRIMARY_TAG="${VERSION}-pr-${PR_NUM}-build-${RUN_ID}"
+          TAGS="type=raw,value=${PRIMARY_TAG}\n$TAGS"
+        fi
+
+        # 2. Release Candidate (Staging - from develop branch)
+        if [[ "${{ github.ref_name }}" == "develop" && "${{ github.event_name }}" != "pull_request" ]]; then
+          PRIMARY_TAG="${VERSION}-rc-build-${RUN_ID}"
+          TAGS="type=raw,value=${PRIMARY_TAG}\n$TAGS"
           TAGS="type=raw,value=latest-staging\n$TAGS"
         fi
 
-        # 3. Pull Request Tag
-        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-          TAGS="type=raw,value=pr-${{ github.event.pull_request.number }}-build-${{ github.run_number }}\n$TAGS"
+        # 3. Production Release (from main branch)
+        if [[ "${{ github.ref_name }}" == "main" && "${{ inputs.is_new_release }}" == "true" ]]; then
+          PRIMARY_TAG="${VERSION}-build-${RUN_ID}"
+          TAGS="type=raw,value=${PRIMARY_TAG}\n$TAGS"
+          TAGS="type=raw,value=${VERSION}\n$TAGS"
+          TAGS="type=raw,value=latest-prod\n$TAGS"
         fi
 
-        # 4. Git SHA (Always) - Use sha- prefix as per policy
+        # 4. Standard Metadata Tags (Always)
         SHORT_SHA=$(git rev-parse --short HEAD)
         TAGS="type=raw,value=sha-${SHORT_SHA}\n$TAGS"
+        TAGS="type=raw,value=build-${RUN_ID}\n$TAGS"
 
-        # 5. Build Number (Always)
-        TAGS="type=raw,value=build-${{ github.run_number }}\n$TAGS"
+        # If no primary tag was set (e.g. ad-hoc branch), use the build-ID
+        if [[ -z "$PRIMARY_TAG" ]]; then
+          PRIMARY_TAG="build-${RUN_ID}"
+        fi
 
-        # 6. Date Tag (Always)
-        DATE_TAG=$(date +'%Y-%m-%d')
-        TAGS="type=raw,value=${DATE_TAG}\n$TAGS"
+        # Output tags
+        echo "Final tags for metadata-action:"
+        echo -e "$TAGS"
+        echo "Primary tag: $PRIMARY_TAG"
 
         echo "tags<<EOF" >> "$GITHUB_OUTPUT"
         echo -e "$TAGS" >> "$GITHUB_OUTPUT"
         echo "EOF" >> "$GITHUB_OUTPUT"
+        echo "primary_tag=$PRIMARY_TAG" >> "$GITHUB_OUTPUT"

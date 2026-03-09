@@ -1,0 +1,56 @@
+name: 'Docker Smoke Test'
+description: 'Standardized smoke testing of containers using docker-compose'
+inputs:
+  compose_file:
+    description: 'Path to docker-compose.yml'
+    required: true
+  service_name:
+    description: 'Service name in compose file to test'
+    required: true
+  health_url:
+    description: 'URL to check for health'
+    required: true
+  timeout:
+    description: 'Timeout in seconds'
+    required: false
+    default: '60'
+  image_tag:
+    description: 'Image tag to use for the service'
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Start Services
+      shell: bash
+      env:
+        SERVICE_IMAGE: ${{ inputs.service_name }}
+      run: |
+        docker compose -f ${{ inputs.compose_file }} up -d --wait
+
+    - name: Verify Health
+      shell: bash
+      run: |
+        echo "🧪 Start health check for ${{ inputs.service_name }} at ${{ inputs.health_url }}..."
+        SUCCESS=0
+        for i in {1..30}; do
+          if curl -f ${{ inputs.health_url }}; then
+            echo "✅ Health check passed!"
+            SUCCESS=1
+            break
+          fi
+          echo "⏳ Waiting for health check ($i/30)..."
+          sleep 2
+        done
+
+        if [ $SUCCESS -eq 0 ]; then
+          echo "❌ Smoke test failed!"
+          docker compose -f ${{ inputs.compose_file }} logs ${{ inputs.service_name }}
+          exit 1
+        fi
+
+    - name: Cleanup
+      if: always()
+      shell: bash
+      run: |
+        docker compose -f ${{ inputs.compose_file }} down -v || true

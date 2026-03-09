@@ -1,0 +1,19 @@
+name: Get Registry Configuration
+description: Outputs the centralized registry hostname and path
+
+outputs:
+  registry:
+    description: Registry hostname
+    value: w90vyjm8.c1.bhs5.container-registry.ovh.net
+  registry_path:
+    description: Registry path/project
+    value: cv.coderbunker.ca
+
+runs:
+  using: composite
+  steps:
+    - name: Echo Registry
+      shell: bash
+      run: |
+        echo "Registry: w90vyjm8.c1.bhs5.container-registry.ovh.net"
+        echo "Registry Path: cv.coderbunker.ca"

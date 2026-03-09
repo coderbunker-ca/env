@@ -19,7 +19,7 @@ jobs:
           repository: coderbunker/modern-resume-env
           token: ${{ secrets.GITHUB_TOKEN }}
           path: env-repo
-          ref: main
+          ref: develop
 
       - name: Setup Environment
         uses: ./env-repo/.github/actions/setup-env
@@ -72,6 +72,13 @@ jobs:
           if [[ "$HAS_ERROR" -eq 1 ]]; then
               exit 1
           fi
+
+      - name: Check for Forbidden Hardcoded Strings
+        shell: bash
+        run: |
+          cd target-repo
+          chmod +x ../env-repo/.github/scripts/check-forbidden-strings.sh
+          ../env-repo/.github/scripts/check-forbidden-strings.sh "${{ github.repository }}"
 
       - name: Validate Nix Flake
         run: |
