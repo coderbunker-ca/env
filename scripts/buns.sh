@@ -24,17 +24,21 @@ fi
 
 # 3. Load secrets if necessary
 if [ "$USE_SOPS" = true ]; then
-	# Use sops -d and eval to load secrets into the environment.
-	# We use sed to prefix 'export ' for the shell.
-	# Note: We expect SOPS_AGE_KEY_FILE or similar to be set in the environment.
-	# We capture the output first to detect decryption errors properly.
-	if ! DECRYPTED_VARS=$(sops -d --output-type dotenv "$SOPS_FILE" 2>/tmp/sops-error); then
-		echo "❌ Error: Failed to decrypt $SOPS_FILE" >&2
-		cat /tmp/sops-error >&2
-		exit 1
+	# Only attempt decryption if we have a way to decrypt
+	if [ -n "$SOPS_AGE_KEY_FILE" ] || [ -n "$SOPS_AGE_KEY" ]; then
+		# Use sops -d and eval to load secrets into the environment.
+		# We use sed to prefix 'export ' for the shell.
+		# We capture the output first to detect decryption errors properly.
+		if ! DECRYPTED_VARS=$(sops -d --output-type dotenv "$SOPS_FILE" 2>/tmp/sops-error); then
+			echo "❌ Error: Failed to decrypt $SOPS_FILE" >&2
+			cat /tmp/sops-error >&2
+			exit 1
+		fi
+		# We only export lines that look like KEY=VALUE to avoid 'export ' (no args) which prints the environment.
+		eval "$(echo "$DECRYPTED_VARS" | sed -n '/^[A-Za-z0-9_]\{1,\}=/p' | sed 's/^/export /')"
+	else
+		echo "⚠️ Warning: $SOPS_FILE found but no SOPS identities (SOPS_AGE_KEY_FILE or SOPS_AGE_KEY) are set. Skipping decryption." >&2
 	fi
-	# We only export lines that look like KEY=VALUE to avoid 'export ' (no args) which prints the environment.
-	eval "$(echo "$DECRYPTED_VARS" | sed -n '/^[A-Za-z0-9_]\{1,\}=/p' | sed 's/^/export /')"
 fi
 
 # 4. Execute command
