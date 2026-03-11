@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs';
 
 /**
  * validate-env.ts
- * 
+ *
  * Part of modern-resume-env. This script validates the current environment variables
  * against a Zod schema defined in src/configSchema.ts of the current working directory.
  */
@@ -20,7 +20,7 @@ try {
   // Dynamically import the schema from the service repository.
   // Bun handles TypeScript files natively.
   const module = await import(schemaPath);
-  
+
   // Standard convention: exported as 'configSchema' or as a default export.
   const configSchema = module.configSchema || module.default;
 
@@ -50,7 +50,7 @@ try {
     console.warn('\x1b[33m⚠️  Validation skipped: Zod dependencies not found. Have you run "bun install"?\x1b[0m');
     process.exit(0);
   }
-  
+
   console.error(`\x1b[31m❌ Error loading or running config validation from ${SCHEMA_FILE}:\x1b[0m`);
   console.error(error.message || error);
   process.exit(1);
