@@ -21,6 +21,17 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Ensure Docker Network
+      shell: bash
+      run: |
+        if command -v docker >/dev/null 2>&1; then
+          docker network inspect modern-resume-network >/dev/null 2>&1 || \
+          docker network create modern-resume-network
+          echo "✅ Docker network 'modern-resume-network' is ready"
+        else
+          echo "⚠️ Docker not found, skipping network creation"
+        fi
+
     - name: Setup Nix & Load Environment
       uses: coderbunker/modern-resume-env/.github/actions/setup-nix-env@main
       with:
