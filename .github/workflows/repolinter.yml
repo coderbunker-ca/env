@@ -9,12 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Target Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: target-repo
 
       - name: Checkout Environment Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: coderbunker/modern-resume-env
           token: ${{ secrets.GITHUB_TOKEN }}

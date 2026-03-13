@@ -7,8 +7,9 @@ We need pre-determined ports for local development to prevent port conflicts as 
 * modern-resume: 8080
 * modern-resume-admin: 8081
 * modern-resume-backend: 3002
-* modern-resume-infra/api: 3001
-* postgres: 5432
+* modern-resume-admin-backend: 3001
+* postgres (modern-resume-db): 5432
+* postgres (modern-resume-admin-db): 5433
 * docling: 5001
 * minio: 9000
 * minio-console: 9001

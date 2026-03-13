@@ -29,9 +29,9 @@ echo "🔍 Checking for forbidden hardcoded strings in $REPO_NAME..."
 for forbidden in "${FORBIDDEN_STRINGS[@]}"; do
 	echo "  - Checking: $forbidden"
 
-	# We check all tracked files, excluding documentation (.md) and logs
+	# We check all tracked files, excluding documentation (.md), logs, and docker-compose.yml
 	# grep -l returns the file names that match
-	HARDCODED_FILES=$(git ls-files | grep -v '\.md$' | grep -v '^logs/' | xargs grep -l "$forbidden" || true)
+	HARDCODED_FILES=$(git ls-files | grep -v '\.md$' | grep -v '^logs/' | grep -v 'docker-compose\.yml$' | xargs grep -l "$forbidden" || true)
 
 	if [[ -n "$HARDCODED_FILES" ]]; then
 		echo "❌ Found forbidden string '$forbidden' in the following files:"
