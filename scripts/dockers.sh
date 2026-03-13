@@ -12,15 +12,21 @@ if [ -f "$SOPS_FILE" ]; then
 fi
 
 # 2. Execute command
+# If the first argument is "compose", shift it to avoid "docker compose compose"
+DOCKER_CMD=("docker" "compose")
+if [[ "$1" == "compose" ]]; then
+	shift
+fi
+
 if [ "$USE_SOPS" = true ]; then
 	# Only attempt decryption if we have a way to decrypt
 	if [ -n "$SOPS_AGE_KEY_FILE" ] || [ -n "$SOPS_AGE_KEY" ]; then
 		# Use sops exec-env to inject secrets into the environment for docker compose
-		exec sops exec-env "$SOPS_FILE" -- docker compose "$@"
+		exec sops exec-env "$SOPS_FILE" -- "${DOCKER_CMD[@]}" "$@"
 	else
 		echo "⚠️ Warning: $SOPS_FILE found but no SOPS identities (SOPS_AGE_KEY_FILE or SOPS_AGE_KEY) are set. Running without SOPS." >&2
-		exec docker compose "$@"
+		exec "${DOCKER_CMD[@]}" "$@"
 	fi
 else
-	exec docker compose "$@"
+	exec "${DOCKER_CMD[@]}" "$@"
 fi
