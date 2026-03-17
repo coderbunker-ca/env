@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+     # TODO: enable this when we have a proper CI setup for the secrets
+    if: github.ref == 'refs/heads/disabled-test'
     steps:
       - uses: actions/checkout@v5
 
