@@ -1,10 +1,7 @@
----
-description: Prevent agents from automatically committing and pushing code.
----
+# Avoid Automatic Git Commits and Pushes
 
-# 🛑 NO AUTO COMMIT OR PUSH
+The agent MUST NOT automatically execute `git commit` or `git push` commands.
 
-**CRITICAL RULE:**
-You MUST NOT run `git add`, `git commit`, or `git push` automatically.
-Always leave unstaged and uncommitted changes for the USER to review, stage, commit, and push themselves.
-You may only run these commands if the USER explicitly issues a direct instruction to do so in the current prompt (e.g., "please commit and push these changes").
+See the centralized development process in
+[PROCESS.md](https://github.com/coderbunker/modern-resume-env/blob/main/.agent/PROCESS.md) for
+full details on rules of engagement.
