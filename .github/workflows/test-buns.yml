@@ -1,0 +1,28 @@
+name: Test Buns Script
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+     # TODO: enable this when we have a proper CI setup for the secrets
+    if: github.ref == 'refs/heads/disabled-test'
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup SOPS
+        run: |
+          curl -LO https://github.com/getsops/sops/releases/download/v3.11.0/sops_3.11.0_amd64.deb
+          sudo dpkg -i sops_3.11.0_amd64.deb
+
+      - name: Run tests
+        run: bun test tests/buns.test.ts

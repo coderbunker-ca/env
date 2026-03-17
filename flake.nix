@@ -62,6 +62,8 @@
               pkgs.age
               pkgs.yq-go
               pkgs.rclone
+              buns
+              dockers
             ];
 
             docker = [
@@ -80,6 +82,7 @@
               pkgs.nixpkgs-fmt
               pkgs.eslint
               checkNonWestern
+              validate-compose
             ];
 
             db = [
@@ -104,6 +107,19 @@
             ${pkgs.python3}/bin/python3 ${./scripts/check-non-western.py} "$@"
           '';
 
+          buns = pkgs.writeShellScriptBin "buns" ''
+            export VALIDATE_SCRIPT_PATH="${./scripts/validate-env.ts}"
+            ${pkgs.bash}/bin/bash ${./scripts/buns.sh} "$@"
+          '';
+
+          dockers = pkgs.writeShellScriptBin "dockers" ''
+            ${pkgs.bash}/bin/bash ${./scripts/dockers.sh} "$@"
+          '';
+
+          validate-compose = pkgs.writeShellScriptBin "validate-compose" ''
+            ${pkgs.bash}/bin/bash ${./scripts/validate-compose.sh} "$@"
+          '';
+
           lib = {
             inherit pkgsGroup;
             shellUtils = ''
@@ -111,6 +127,16 @@
               log_interactive() {
                 if [ -t 1 ]; then echo -e "$@" >&2; fi
               }
+            '';
+            sopsHook = ''
+              # SOPS Age Key discovery
+              if [ -f "$HOME/.config/sops/age/keys.txt" ]; then
+                export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
+                log_interactive "\033[1;32m+ SOPS Age Key found at: $SOPS_AGE_KEY_FILE\033[0m"
+              else
+                log_interactive "\033[1;33mWarning: SOPS age key not found at ~/.config/sops/age/keys.txt\033[0m"
+                log_interactive "To configure SOPS, see: \033[1;34mhttps://github.com/coderbunker/modern-resume-env/blob/main/docs/SOPS.md\033[0m"
+              fi
             '';
             setupHooks = ''
               # Setup git hooks (only if pre-commit and git are available)
@@ -125,6 +151,9 @@
           packages = {
             versions = baseVersions;
             check-non-western = checkNonWestern;
+            buns = buns;
+            dockers = dockers;
+            validate-compose = validate-compose;
             ovhcloud = ovhcloud;
           };
 
@@ -132,6 +161,9 @@
             buildInputs = allPkgs ++ [
               self.packages.${system}.versions
               self.packages.${system}.check-non-western
+              self.packages.${system}.buns
+              self.packages.${system}.dockers
+              self.packages.${system}.validate-compose
             ] ++ (if system == "aarch64-darwin" || system == "x86_64-darwin" then [ ] else [
               pkgs.stdenv.cc.cc.lib
               pkgs.glibc
@@ -154,14 +186,7 @@
                 fi
               fi
 
-              # SOPS Age Key discovery
-              if [ -f "$HOME/.config/sops/age/keys.txt" ]; then
-                export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
-              else
-                log_interactive "\033[1;33mWarning: SOPS age key not found at ~/.config/sops/age/keys.txt\033[0m"
-                log_interactive "To configure SOPS, see: \033[1;34mhttps://github.com/coderbunker/modern-resume-env/blob/main/docs/SOPS.md\033[0m"
-              fi
-
+              ${lib.sopsHook}
               ${lib.setupHooks}
 
               log_interactive "\033[1;32mModern Resume Shared Development Environment Loaded\033[0m"
