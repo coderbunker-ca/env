@@ -45,7 +45,9 @@ The AI agent **MUST NOT** automatically execute `git commit` or `git push` comma
 ### **Best Practices**
 
 - **Knowledge Discovery**: Always check existing **Knowledge Items (KIs)** before starting new research.
-- **Terminal Optimization**: Minimize frequent `cd` commands to avoid repetitive `direnv` initialization overhead. Use absolute paths or run from the repo root.
+- **Terminal Optimization**: Minimize frequent `cd` commands to avoid repetitive `direnv` initialization overhead.
+  - **Absolute Paths**: Use absolute paths for all file operations to avoid `cd` entirely where possible.
+  - **Direnv Exec**: For non-interactive commands, prefer `direnv exec /absolute/path/to/repo <command>` over `cd <repo> && <command>`. This bypasses shell hook execution and prompt evaluations.
 - **Internationalization**: Use `vue-i18n` for all user-facing text.
 - **Schema Validation**: Use **Zod** for runtime data validation.
 

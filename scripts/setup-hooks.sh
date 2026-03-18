@@ -3,14 +3,16 @@ set -e
 
 # Install hooks if not already installed
 if [ -d ".git" ] && command -v pre-commit >/dev/null 2>&1; then
-	pre-commit install >/dev/null 2>&1
+	if [ ! -f ".git/hooks/pre-commit" ]; then
+		pre-commit install >/dev/null 2>&1
+	fi
 
 	# Patch the hook to use direnv if available
 	HOOK_FILE=".git/hooks/pre-commit"
 	if [ -f "$HOOK_FILE" ]; then
 		# Check if we already patched it
 		if ! grep -q "direnv export bash" "$HOOK_FILE"; then
-			# We want to insert the direnv loader after the shebang
+			echo "Checking if .git/hooks/pre-commit needs patching..."
 			# but before the "start templated" block if possible, or just at the top.
 			# actually, pre-commit hooks are often overwritten by `pre-commit install`.
 			# however, `pre-commit` itself generates a script that calls the actual hook executable.

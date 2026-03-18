@@ -3,7 +3,19 @@ name: Repolinter Self-Lint
 on:
   push:
     branches: ["main", "develop"]
+    paths-ignore:
+      - "README.md"
+      - "docs/**"
+      - ".agent/**"
+      - "LICENSE"
+      - ".gitignore"
   pull_request:
+    paths-ignore:
+      - "README.md"
+      - "docs/**"
+      - ".agent/**"
+      - "LICENSE"
+      - ".gitignore"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
