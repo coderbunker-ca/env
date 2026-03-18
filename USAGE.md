@@ -65,3 +65,29 @@ Or if you use `direnv`, create an `.envrc` file:
 ```bash
 use flake github:coderbunker/modern-resume-env
 ```
+
+## 4. Shell Performance Optimization
+
+To avoid the overhead of Nix flake re-evaluations on every directory change, it is highly recommended to use **`nix-direnv`**.
+
+### Install `nix-direnv`
+
+Follow the instructions at [nix-direnv](https://github.com/nix-community/nix-direnv) to install it. Once installed, `direnv` will cache the Nix environment, making shell loads instantaneous.
+
+### Pinning Nixpkgs
+
+To avoid network lookups during evaluation, pin your `nixpkgs` input in the local registry:
+
+```bash
+nix registry add nixpkgs github:NixOS/nixpkgs/$(nix flake metadata --json | jq -r '.inputs.nixpkgs.locked.rev')
+```
+
+### Agent Optimization
+
+For AI agents and automation, prefer **`direnv exec`** over `cd`:
+
+```bash
+direnv exec /path/to/repo <command>
+```
+
+This bypasses interactive shell hooks and prompt evaluations entirely.
