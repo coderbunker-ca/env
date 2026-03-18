@@ -22,8 +22,8 @@ The AI agent **MUST NOT** automatically execute `git commit` or `git push` comma
 
 ### **Proactive but Respectful**
 
-- The agent should be proactive in exploring the codebase and proposing solutions.
-  - Request approval via an `implementation_plan.md` artifact before execution.
+- **Approval Process**: Request approval via an `implementation_plan.md` artifact before execution.
+  - **Exception**: For ongoing evaluations or complex architectural changes already documented in a proposal (e.g., in `docs/proposed/`), prefer **additive changes directly to the proposal document** to maintain a complete project history in one place.
 - **Proactive Document Maintenance**: When new general guidelines or technical standards are established during a task, the agent should proactively update this `PROCESS.md` file to ensure the centralized knowledge remains current.
 - **Documentation & Tests**: Every significant change MUST be accompanied by:
   - Updates to relevant documentation (READMEs, `docs/`, etc.).
