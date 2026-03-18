@@ -30,6 +30,12 @@ The AI agent **MUST NOT** automatically execute `git commit` or `git push` comma
   - **Unit Tests**: Fast, isolated tests with no external dependencies.
   - **Integration Tests**: Tests that verify interaction with infrastructure services (DB, Gateway, etc.).
 - **Quality Enforcement**: Proactively run linting (Biome) and type-checking before proposing changes. Ensure all new code adheres to project standards.
+- **Task Management & History**:
+  - **Granular Checklists**: Maintain detailed, checkable lists of steps for each task. A task is only complete when it has been verified in the target environment.
+  - **E2E Oversight**: The checklist MUST cover everything from local development to final user E2E validation.
+  - **Preserve History**: Do not mass-delete completed steps from proposals or task lists. Keep them as a historical record of work done, clearly marked as completed `[x]`.
+  - **Avoid Premature Success Claims**: Do not use definitive statements (e.g., "We have successfully implemented...") in documentation until the user has explicitly validated and approved the final result in the target environment. Use "Proposed", "In Progress", or "Ready for Validation" instead.
+  - **Track CI/CD Warnings**: Proactively identify and collect build warnings (e.g., deprecation notices like Node.js 24) in the task list. These should be addressed once the primary implementation is complete.
 
 ## 2. Technical Stack & Philosophy
 
