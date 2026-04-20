@@ -38,7 +38,32 @@ If you prefer to store your keys in a different location, you must manually expo
 export SOPS_AGE_KEY_FILE="/path/to/your/custom/keys.txt"
 ```
 
-## 4. Troubleshooting
+## 4. Tracing Age Keys back to SSH
+
+If you need to identify which SSH key corresponds to a public `age1...` key used in `.sops.yaml`, you can use the `ssh-to-age` tool.
+
+### Identification Command
+
+If you have Nix installed, you can identify any key from a GitHub profile or local file:
+
+```bash
+# To check a GitHub profile:
+nix-shell -p ssh-to-age --run "curl -s https://github.com/USER.keys | ssh-to-age"
+
+# To check your local Ed25519 key:
+nix-shell -p ssh-to-age --run "ssh-to-age < ~/.ssh/id_ed25519.pub"
+```
+
+### Common Key Mappings
+
+The following `age` keys are commonly used in this project's `.sops.yaml` files:
+
+| Age Key | Owner | Source |
+|---------|-------|--------|
+| `age1886t3jl7dxwdrmtlprlh0aayzz3384jrrqjx07f2vnu285wxqqjqfz5nlq` | Alex Michaud | `github.com/alex-michaud.keys` |
+| `age1dmqxn0tmpv89k4anyqqhstce3gcrafhefdh7dt283lrhfrtp54nqlk446v` | rngadam | `github.com/rngadam.keys` |
+
+## 5. Troubleshooting
 
 If you see an error like:
 `FAILED TO DECRYPT: No identity matched any of the recipients`
