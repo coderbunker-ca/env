@@ -1,10 +1,10 @@
 # 🛡️ CI Linting Strategy
 
-We aim for consistent, fast, and unified linting across all repositories in the Modern Resume ecosystem.
+We aim for consistent, fast, and unified linting across all repositories in the CoderBunker-CA ecosystem.
 
 ## Core Philosophy
 
-1. **Centralized Rules**: Base linting rules are defined in `modern-resume-env`.
+1. **Centralized Rules**: Base linting rules are defined in `cv-env`.
 2. **Local/CI Parity**: Linting runs identically on a developer's machine via `pre-commit` and in GitHub Actions via `setup-env`.
 3. **Automatic Detection**: We rely on `pre-commit`'s built-in file type detection to run only the relevant hooks.
 4. **Setup Once Pattern**: Environment initialization (Nix + Bun) is handled once per job via `setup-env`.
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Environment
-        uses: coderbunker/modern-resume-env/.github/actions/setup-env@main
+        uses: coderbunker-ca/env/.github/actions/setup-env@main
         with:
           install_deps: true # Only if you have local hooks like eslint
           github_access_token: ${{ secrets.GITHUB_TOKEN }}

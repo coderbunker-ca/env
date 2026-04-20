@@ -19,13 +19,13 @@ We prioritize using established industry tools (like Docker Compose Watch and Te
 
 ## 2. Goal
 
-Establish a consistent, secure, and easy-to-use development environment across all Modern Resume repositories. This standardizes how developers bring up infrastructure, run fullstack systems, execute tests, and manage secrets.
+Establish a consistent, secure, and easy-to-use development environment across all CoderBunker-CA repositories. This standardizes how developers bring up infrastructure, run fullstack systems, execute tests, and manage secrets.
 
 ## 3. Shared Secret Management & Overrides
 
 ### The `buns` Wrapper (Bun + SOPS)
 
-We introduce a `buns` script integrated into the `modern-resume-env` flake. This manages the loading of encrypted secrets automatically.
+We introduce a `buns` script integrated into the `cv-env` flake. This manages the loading of encrypted secrets automatically.
 
 - **Standard Shared Secrets**: `local.enc.env`
   - **Naming**: The name `local.enc.env` explicitly signifies it is **local** to the repository scope, **encrypted**, and an **environment** file.
@@ -166,7 +166,7 @@ export const configSchema = z.object({
 
 ### Scenario A: Local Standalone Development
 
-**Goal**: Work on a specific service (e.g., `modern-resume-backend`) with minimal overhead.
+**Goal**: Work on a specific service (e.g., `cv-backend`) with minimal overhead.
 
 1. `bun run infra:up` (Brings up Postgres, Minio, etc.)
 2. `buns run dev` (Runs the service locally, loading secrets from `local.enc.env`)
@@ -176,8 +176,8 @@ export const configSchema = z.object({
 
 **Goal**: Test interactions between different components (e.g., Admin UI and Admin Backend).
 
-1. In `modern-resume-admin`, run `docker compose --profile fullstack up -d`.
-2. This pulls the latest `modern-resume-admin-backend` image and starts it alongside its required infra.
+1. In `cv-admin`, run `docker compose --profile fullstack up -d`.
+2. This pulls the latest `cv-admin-backend` image and starts it alongside its required infra.
 3. Develop the frontend locally against the containerized backend.
 
 ### Scenario C: Hybrid Remote Debugging
@@ -191,20 +191,20 @@ export const configSchema = z.object({
 
 To maintain stability and minimize risk across the entire ecosystem, we will adopt an **incremental implementation** strategy:
 
-- **Phase 1 (Pilot)**: Implement the standard in `modern-resume-admin-backend`. This serves as our validation ground.
+- **Phase 1 (Pilot)**: Implement the standard in `cv-admin-backend`. This serves as our validation ground.
 - **Phase 2 (Evaluation)**: Refine the `buns` script and Docker patterns based on Phase 1 feedback.
-- **Phase 3 (Rollout)**: Systematically update other repositories (`modern-resume-backend`, frontends, etc.).
+- **Phase 3 (Rollout)**: Systematically update other repositories (`cv-backend`, frontends, etc.).
 
 ## 11. Affected Repositories
 
 | Repository | Component Type | Primary Stack |
 | :--- | :--- | :--- |
-| `modern-resume` | Frontend | Vue 3, Vite |
-| `modern-resume-admin` | Admin Frontend | Vue 3, Vite |
-| `modern-resume-admin-backend` | Admin Backend API | Hono, Prisma, Bun |
-| `modern-resume-backend` | Core Backend & Worker | Hono, Prisma, Bun |
-| `modern-resume-env` | Shared Environment | Nix, SOPS, Pre-commit |
-| `modern-resume-infra` | Infrastructure | Terraform, Flux, Kubernetes |
+| `cv` | Frontend | Vue 3, Vite |
+| `cv-admin` | Admin Frontend | Vue 3, Vite |
+| `cv-admin-backend` | Admin Backend API | Hono, Prisma, Bun |
+| `cv-backend` | Core Backend & Worker | Hono, Prisma, Bun |
+| `cv-env` | Shared Environment | Nix, SOPS, Pre-commit |
+| `cv-infra` | Infrastructure | Terraform, Flux, Kubernetes |
 
 ## 12. Critical Analysis
 

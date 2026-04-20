@@ -11,8 +11,8 @@ FORBIDDEN_STRINGS=(
 # Repositories allowed to have these strings
 # (e.g. infra/env repos often need to define the defaults)
 EXCLUDED_REPOS=(
-	"modern-resume-infra"
-	"modern-resume-env"
+	"cv-infra"
+	"cv-env"
 )
 
 for excluded in "${EXCLUDED_REPOS[@]}"; do

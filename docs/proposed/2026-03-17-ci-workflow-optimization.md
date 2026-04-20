@@ -6,9 +6,9 @@ Documentation and agent instruction updates are currently triggering full releas
 
 Recent PRs for centralizing agent instructions triggered:
 
-- `modern-resume-backend`: Release workflow (Docker Build, Versioning)
-- `modern-resume`: Release workflow
-- `modern-resume-admin`: Release workflow
+- `cv-backend`: Release workflow (Docker Build, Versioning)
+- `cv`: Release workflow
+- `cv-admin`: Release workflow
 
 These changes were exclusively to `.md` files and `.agent/` directories, which do not affect the compiled application or container images.
 
@@ -31,24 +31,24 @@ paths-ignore:
 
 Separated by repository:
 
-#### modern-resume
+#### cv
 
 - `.github/workflows/release.yml`
 
-#### modern-resume-admin
+#### cv-admin
 
 - `.github/workflows/release.yml`
 
-#### modern-resume-backend
+#### cv-backend
 
 - `.github/workflows/release.yml`
 - `.github/workflows/ci-external.yml`
 
-#### modern-resume-admin-backend
+#### cv-admin-backend
 
 - `.github/workflows/release.yml` (Update existing filters to include `.agent/**`)
 
-#### modern-resume-env
+#### cv-env
 
 - `.github/workflows/lint.yml` (If applicable)
 

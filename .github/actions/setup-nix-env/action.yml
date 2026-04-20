@@ -5,7 +5,7 @@ inputs:
   s3_bucket:
     description: 'Name of the S3 bucket for the binary cache'
     required: false
-    default: 'modern-resume-nix-cache'
+    default: 'cv-nix-cache'
   s3_endpoint:
     description: 'S3 API endpoint'
     required: false
@@ -13,7 +13,7 @@ inputs:
   s3_public_key:
     description: 'Public key for verifying signed packages'
     required: false
-    default: 'modern-resume-nix-cache-1:crKOVB7ABh6mDldfa2U9t+aUjQnx9AKeuRAE+/EkNkU='
+    default: 'cv-nix-cache-1:crKOVB7ABh6mDldfa2U9t+aUjQnx9AKeuRAE+/EkNkU='
   github_access_token:
     description: 'GitHub token for accessing private flakes'
     required: false

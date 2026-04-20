@@ -4,12 +4,12 @@ We need pre-determined ports for local development to prevent port conflicts as 
 
 ## Services
 
-* modern-resume: 8080
-* modern-resume-admin: 8081
-* modern-resume-backend: 3002
-* modern-resume-admin-backend: 3001
-* postgres (modern-resume-db): 5432
-* postgres (modern-resume-admin-db): 5433
+* cv: 8080
+* cv-admin: 8081
+* cv-backend: 3002
+* cv-admin-backend: 3001
+* postgres (cv-db): 5432
+* postgres (cv-admin-db): 5433
 * docling: 5001
 * minio: 9000
 * minio-console: 9001

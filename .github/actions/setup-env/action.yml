@@ -25,15 +25,15 @@ runs:
       shell: bash
       run: |
         if command -v docker >/dev/null 2>&1; then
-          docker network inspect modern-resume-network >/dev/null 2>&1 || \
-          docker network create modern-resume-network
-          echo "✅ Docker network 'modern-resume-network' is ready"
+          docker network inspect cv-network >/dev/null 2>&1 || \
+          docker network create cv-network
+          echo "✅ Docker network 'cv-network' is ready"
         else
           echo "⚠️ Docker not found, skipping network creation"
         fi
 
     - name: Setup Nix & Load Environment
-      uses: coderbunker/modern-resume-env/.github/actions/setup-nix-env@main
+      uses: coderbunker-ca/env/.github/actions/setup-nix-env@main
       with:
         github_access_token: ${{ inputs.github_access_token }}
         working_directory: ${{ inputs.working_directory }}
@@ -56,7 +56,7 @@ runs:
         bun-version: latest
 
     - name: Setup Bun Registry & Deps
-      uses: coderbunker/modern-resume-env/.github/actions/setup-bun-env@main
+      uses: coderbunker-ca/env/.github/actions/setup-bun-env@main
       env:
         NODE_AUTH_TOKEN: ${{ inputs.github_access_token }}
       with:

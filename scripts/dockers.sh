@@ -1,6 +1,6 @@
 #!/bin/bash
 # dockers - Docker Compose + SOPS wrapper
-# This script is part of modern-resume-env
+# This script is part of cv-env
 set -e
 
 SOPS_FILE="local.enc.env"

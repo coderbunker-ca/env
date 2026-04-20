@@ -2,8 +2,8 @@
 set -eo pipefail
 
 # Required Environment Variables:
-# - REMOTE_IMAGE_NAME: The full registry image name (e.g. w90vyjm8.../modern-resume-backend)
-# - LOCAL_IMAGE_NAME: The local image name/tag (e.g. modern-resume-std)
+# - REMOTE_IMAGE_NAME: The full registry image name (e.g. w90vyjm8.../cv-backend)
+# - LOCAL_IMAGE_NAME: The local image name/tag (e.g. cv-std)
 
 if [ -z "$REMOTE_IMAGE_NAME" ] || [ -z "$LOCAL_IMAGE_NAME" ]; then
 	echo "Error: REMOTE_IMAGE_NAME and LOCAL_IMAGE_NAME must be set."

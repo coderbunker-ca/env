@@ -1,13 +1,13 @@
-# Modern Resume Development Process & Rules
+# CoderBunker-CA Development Process & Rules
 
-This document defines the core philosophy, technical standards, and rules of engagement for AI agents and human developers working across the Modern Resume project suite.
+This document defines the core philosophy, technical standards, and rules of engagement for AI agents and human developers working across the CoderBunker-CA project suite.
 
 ## 1. Rules of Engagement (Agent-User Collaboration)
 
 ### **Conversation Kick-off**
 
 - When starting a new work conversation, the agent **MUST** notify the user that it has loaded the centralized development process into the current context and is aware of the team-specific guidelines.
-- Always reference the document using its public URL: `https://github.com/coderbunker/modern-resume-env/blob/main/.agent/PROCESS.md` (not the local file path).
+- Always reference the document using its public URL: `https://github.com/coderbunker-ca/env/blob/main/.agent/PROCESS.md` (not the local file path).
 
 ### **No Automatic Commits or Pushes**
 
@@ -79,7 +79,7 @@ The AI agent **MUST NOT** automatically execute `git commit` or `git push` comma
 
 ### **Docker Compose & Profiles**
 
-- **Orchestration**: Use `docker-compose.yml` in `modern-resume-env` or individual repos to manage the stack.
+- **Orchestration**: Use `docker-compose.yml` in `cv-env` or individual repos to manage the stack.
 - **Profiles**: Utilize Docker Compose **profiles** to bring up specific parts of the stack (e.g., `db-only`, `api-only`, `frontend-only`) or to run tests in an isolated environment.
 - **Standard Command**: `docker compose --profile <profile> up -d`.
 
@@ -87,12 +87,12 @@ The AI agent **MUST NOT** automatically execute `git commit` or `git push` comma
 
 The project consists of several specialized repositories:
 
-- `modern-resume`: Main user frontend.
-- `modern-resume-admin`: Admin frontend.
-- `modern-resume-backend`: Core API.
-- `modern-resume-admin-backend`: Admin-specific API.
-- `modern-resume-env`: Shared environment and CI/CD configurations.
-- `modern-resume-infra`: Infrastructure and deployment (K8s, Flux).
+- `cv`: Main user frontend.
+- `cv-admin`: Admin frontend.
+- `cv-backend`: Core API.
+- `cv-admin-backend`: Admin-specific API.
+- `cv-env`: Shared environment and CI/CD configurations.
+- `cv-infra`: Infrastructure and deployment (K8s, Flux).
 
 ---
 *For repository-specific details, refer to the local `README.md` or `docs/` folder in each repository.*

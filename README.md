@@ -1,6 +1,6 @@
-# Modern Resume Shared Environment
+# CoderBunker-CA Shared Environment
 
-This repository centralizes the development environment for both the frontend and backend of the Modern Resume project.
+This repository centralizes the development environment for both the frontend and backend of the CoderBunker-CA project.
 
 ## Overview
 

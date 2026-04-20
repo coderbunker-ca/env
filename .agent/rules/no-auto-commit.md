@@ -3,5 +3,5 @@
 The agent MUST NOT automatically execute `git commit` or `git push` commands.
 
 See the centralized development process in
-[PROCESS.md](https://github.com/coderbunker/modern-resume-env/blob/main/.agent/PROCESS.md) for
+[PROCESS.md](https://github.com/coderbunker-ca/env/blob/main/.agent/PROCESS.md) for
 full details on rules of engagement.

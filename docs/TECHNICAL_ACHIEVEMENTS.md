@@ -1,6 +1,6 @@
-# Modern Resume: Technical Achievements & Problems Solved
+# CoderBunker-CA: Technical Achievements & Problems Solved
 
-This document summarizes the key technical milestones and architectural problems solved during the development of the Modern Resume project.
+This document summarizes the key technical milestones and architectural problems solved during the development of the CoderBunker-CA project.
 
 ## 🏗️ Infrastructure & DevOps
 
@@ -70,7 +70,7 @@ This document summarizes the key technical milestones and architectural problems
 ### 10. AI-Powered Extraction (Docling & MCP)
 
 - **Achievement**: Integrated **Docling API** for high-fidelity PDF-to-Markdown conversion.
-- **Feature**: Implementation of the **Model Context Protocol (MCP)** to allow AI tools to interact directly with the Modern Resume backend.
+- **Feature**: Implementation of the **Model Context Protocol (MCP)** to allow AI tools to interact directly with the CoderBunker-CA backend.
 
 ---
 *This summary was compiled from existing project documentation and changelogs.*

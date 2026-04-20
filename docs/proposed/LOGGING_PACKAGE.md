@@ -1,8 +1,8 @@
-# Proposed Logging Package: `@modern-resume/observability`
+# Proposed Logging Package: `@cv/observability`
 
 ## Goal
 
-Standardize and centralize logging, observability, and telemetry initialization across the Modern Resume ecosystem to eliminate code duplication and ensure consistent formatting/metadata.
+Standardize and centralize logging, observability, and telemetry initialization across the CoderBunker-CA ecosystem to eliminate code duplication and ensure consistent formatting/metadata.
 
 ## Package Content
 
@@ -29,9 +29,9 @@ Standardize and centralize logging, observability, and telemetry initialization 
 
 ## Implementation Plan
 
-1. Create a new package in `modern-resume-env` (or a dedicated repo).
-2. Export the `logger.ts` logic from `modern-resume-backend`.
-3. Export the `FaroInit` logic from `modern-resume-admin`.
+1. Create a new package in `cv-env` (or a dedicated repo).
+2. Export the `logger.ts` logic from `cv-backend`.
+3. Export the `FaroInit` logic from `cv-admin`.
 4. Update projects to depend on this package via workspace or private npm registry.
 
 ## Benefits

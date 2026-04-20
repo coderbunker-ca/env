@@ -4,7 +4,7 @@ import { existsSync } from 'node:fs';
 /**
  * validate-env.ts
  *
- * Part of modern-resume-env. This script validates the current environment variables
+ * Part of cv-env. This script validates the current environment variables
  * against a Zod schema defined in src/configSchema.ts of the current working directory.
  */
 

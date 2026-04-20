@@ -1,6 +1,6 @@
 #!/bin/bash
 # validate-compose.sh - Validates all Docker Compose profiles
-# This script is part of modern-resume-env
+# This script is part of cv-env
 
 set -e
 

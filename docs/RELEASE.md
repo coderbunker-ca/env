@@ -1,10 +1,10 @@
 # 🚀 Unified Release Process
 
-All repositories in the Modern Resume project follow a standardized release and tagging policy to ensure predictable deployments and reliable GitOps automation.
+All repositories in the CoderBunker-CA project follow a standardized release and tagging policy to ensure predictable deployments and reliable GitOps automation.
 
 ## 🏷️ Tagging Policy Summary
 
-Based on [2026-02-27-TAGGING-POLICY.md](file:///Users/rngadam/coderbunker/src/modern-resume-infra/docs/proposed/2026-02-27-TAGGING-POLICY.md).
+Based on [2026-02-27-TAGGING-POLICY.md](file:///Users/rngadam/coderbunker/src/cv-infra/docs/proposed/2026-02-27-TAGGING-POLICY.md).
 
 - **Releases (main branch)**: `vX.Y.Z` (e.g., `v1.2.0`)
 - **Integration (develop branch)**: `develop-build-<RUN_NUMBER>`
@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Environment
-        uses: coderbunker/modern-resume-env/.github/actions/setup-env@main
+        uses: coderbunker-ca/env/.github/actions/setup-env@main
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Lint
@@ -38,13 +38,13 @@ jobs:
         run: bun run test
 
   release:
-    uses: coderbunker/modern-resume-env/.github/workflows/semantic-release.yml@main
+    uses: coderbunker-ca/env/.github/workflows/semantic-release.yml@main
     needs: lint-test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     secrets: inherit
 
   docker:
-    uses: coderbunker/modern-resume-env/.github/workflows/docker-ci.yml@main
+    uses: coderbunker-ca/env/.github/workflows/docker-ci.yml@main
     needs: [lint-test, release]
     with:
       image_path: cv.coderbunker.ca/your-repo-name
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Notification
-        uses: coderbunker/modern-resume-env/.github/actions/post-build-notification@main
+        uses: coderbunker-ca/env/.github/actions/post-build-notification@main
         with:
           build_result: ${{ needs.docker.result }}
           version: ${{ needs.release.outputs.new_release_version || 'N/A' }}

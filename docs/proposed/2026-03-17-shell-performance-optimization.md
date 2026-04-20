@@ -4,7 +4,7 @@ The current development environment suffers from high overhead due to frequent N
 
 ## 1. Motivation
 
-Every time an AI agent or developer changes directories or runs a command in a multi-repo setup, `direnv` triggers a Nix evaluation. Without persistent caching, this adds seconds of latency to every interaction. Additionally, the `shellHook` in `modern-resume-env` performs repetitive tasks like patching git hooks, which contributes to the slowdown.
+Every time an AI agent or developer changes directories or runs a command in a multi-repo setup, `direnv` triggers a Nix evaluation. Without persistent caching, this adds seconds of latency to every interaction. Additionally, the `shellHook` in `cv-env` performs repetitive tasks like patching git hooks, which contributes to the slowdown.
 
 ## 2. Technical Plan
 
@@ -24,7 +24,7 @@ Update `PROCESS.md` to formalize the use of `direnv exec` as a standard practice
 
 ### C. Lazy Hook Loading
 
-Optimize `modern-resume-env/scripts/setup-hooks.sh` to only perform work when necessary.
+Optimize `cv-env/scripts/setup-hooks.sh` to only perform work when necessary.
 
 - **Action**: Add checks to avoid re-patching git hooks if they already have the `direnv` loader.
 

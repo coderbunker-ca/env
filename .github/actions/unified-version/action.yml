@@ -52,7 +52,7 @@ runs:
     - name: Get Fallback Version
       id: fallback
       if: steps.semantic.outputs.new_release_published != 'true'
-      uses: coderbunker/modern-resume-env/.github/actions/get-version@main
+      uses: coderbunker-ca/env/.github/actions/get-version@main
 
     - name: Determine Final Version
       id: final_version

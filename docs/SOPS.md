@@ -22,7 +22,7 @@ AGE-SECRET-KEY-1...
 
 ## 2. Automatic Configuration
 
-The `modern-resume-env` development environment (`flake.nix`) automatically exports the `SOPS_AGE_KEY_FILE` environment variable if it finds the file at `~/.config/sops/age/keys.txt`.
+The `cv-env` development environment (`flake.nix`) automatically exports the `SOPS_AGE_KEY_FILE` environment variable if it finds the file at `~/.config/sops/age/keys.txt`.
 
 If the file is present, you can run SOPS commands directly:
 

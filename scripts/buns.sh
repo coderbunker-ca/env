@@ -1,6 +1,6 @@
 #!/bin/bash
 # buns - Bun + SOPS + Validation wrapper
-# This script is part of modern-resume-env
+# This script is part of cv-env
 set -e
 
 # Find the validation script - it should be in the same directory as this script

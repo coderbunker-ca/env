@@ -17,7 +17,7 @@ To enable the push (caching) workflow, set the following Secrets in this GitHub 
 | `S3_ACCESS_KEY_ID` | OVH Access Key (Write access) | `abc123...` |
 | `S3_SECRET_KEY` | OVH Secret Key (Write access) | `xyz789...` |
 | `S3_ENDPOINT` | OVH S3 API Endpoint | `s3.bhs.io.cloud.ovh.net` |
-| `S3_BUCKET` | The name of your bucket | `modern-resume-nix-cache` |
+| `S3_BUCKET` | The name of your bucket | `cv-nix-cache` |
 | `S3_REGION` | The region of your bucket | `bhs` |
 | `CACHE_SIGNING_KEY` | The Private signing key | `cache-1:abc...` |
 
@@ -25,15 +25,15 @@ To enable the push (caching) workflow, set the following Secrets in this GitHub 
 
 ### Automatic (GitHub Actions)
 
-The custom action `coderbunker/modern-resume-env/.github/actions/setup-nix-env@main` automatically configures the cache using the public bucket URL and the public signing key.
+The custom action `coderbunker-ca/env/.github/actions/setup-nix-env@main` automatically configures the cache using the public bucket URL and the public signing key.
 
 ### Local Use
 
 To benefit from the cache on your local machine, add the following to your `nix.conf` (usually `/etc/nix/nix.conf` or `~/.config/nix/nix.conf`):
 
 ```conf
-substituters = https://cache.nixos.org https://modern-resume-nix-cache.s3.bhs.io.cloud.ovh.net
-trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= modern-resume-nix-cache-1:crKOVB7ABh6mDldfa2U9t+aUjQnx9AKeuRAE+/EkNkU=
+substituters = https://cache.nixos.org https://cv-nix-cache.s3.bhs.io.cloud.ovh.net
+trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= cv-nix-cache-1:crKOVB7ABh6mDldfa2U9t+aUjQnx9AKeuRAE+/EkNkU=
 ```
 
 ## 4. Security Model
@@ -47,7 +47,7 @@ trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDS
 If you need to rotate the signing keys:
 
 ```bash
-nix-store --generate-binary-cache-key modern-resume-nix-cache-1 cache-priv-key cache-pub-key
+nix-store --generate-binary-cache-key cv-nix-cache-1 cache-priv-key cache-pub-key
 ```
 
 1. Update `CACHE_SIGNING_KEY` secret with `cache-priv-key`.

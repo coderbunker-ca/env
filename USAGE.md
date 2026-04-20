@@ -2,7 +2,7 @@
 
 ## 1. Integrate into an Application Repository
 
-To use this shared environment in your project (e.g., `modern-resume` or `modern-resume-backend`), update your local `flake.nix` to point to this repository.
+To use this shared environment in your project (e.g., `cv` or `cv-backend`), update your local `flake.nix` to point to this repository.
 
 ### Example `flake.nix`
 
@@ -12,7 +12,7 @@ To use this shared environment in your project (e.g., `modern-resume` or `modern
 
   inputs = {
     # Point to the shared environment repository
-    modern-env.url = "github:coderbunker/modern-resume-env";
+    modern-env.url = "github:coderbunker-ca/env";
   };
 
   outputs = { self, modern-env }: {
@@ -39,7 +39,7 @@ experimental-features = nix-command flakes oci-store
 You can push your build results to GHCR:
 
 ```bash
-nix copy --to "oci://ghcr.io/your-org/modern-resume-cache" .#devShells.x86_64-linux.default
+nix copy --to "oci://ghcr.io/your-org/cv-cache" .#devShells.x86_64-linux.default
 ```
 
 #### Pulling from the Cache
@@ -47,7 +47,7 @@ nix copy --to "oci://ghcr.io/your-org/modern-resume-cache" .#devShells.x86_64-li
 When someone else runs `nix develop`, they can use your OCI registry as a substituter:
 
 ```bash
-nix develop --substituters "https://ghcr.io/your-org/modern-resume-cache" --trusted-public-keys "..."
+nix develop --substituters "https://ghcr.io/your-org/cv-cache" --trusted-public-keys "..."
 ```
 
 *(Note: Public registries are easier; for private Harbor, you'll need to handle authentication via `~/.config/nix/nix.conf` or netrc.)*
@@ -63,7 +63,7 @@ nix develop
 Or if you use `direnv`, create an `.envrc` file:
 
 ```bash
-use flake github:coderbunker/modern-resume-env
+use flake github:coderbunker-ca/env
 ```
 
 ## 4. Shell Performance Optimization
