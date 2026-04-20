@@ -1,6 +1,6 @@
-# CoderBunker-CA Development Process & Rules
+# coderbunker-ca Development Process & Rules
 
-This document defines the core philosophy, technical standards, and rules of engagement for AI agents and human developers working across the CoderBunker-CA project suite.
+This document defines the core philosophy, technical standards, and rules of engagement for AI agents and human developers working across the coderbunker-ca project suite.
 
 ## 1. Rules of Engagement (Agent-User Collaboration)
 

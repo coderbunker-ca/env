@@ -2,7 +2,7 @@
 
 ## Goal
 
-Standardize and centralize logging, observability, and telemetry initialization across the CoderBunker-CA ecosystem to eliminate code duplication and ensure consistent formatting/metadata.
+Standardize and centralize logging, observability, and telemetry initialization across the coderbunker-ca ecosystem to eliminate code duplication and ensure consistent formatting/metadata.
 
 ## Package Content
 

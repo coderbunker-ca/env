@@ -1,5 +1,5 @@
 {
-  description = "CoderBunker-CA Shared Development Environment";
+  description = "coderbunker-ca Shared Development Environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -189,7 +189,7 @@
               ${lib.sopsHook}
               ${lib.setupHooks}
 
-              log_interactive "\033[1;32mCoderBunker-CA Shared Development Environment Loaded\033[0m"
+              log_interactive "\033[1;32mcoderbunker-ca Shared Development Environment Loaded\033[0m"
             '';
           };
 

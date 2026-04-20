@@ -1,6 +1,6 @@
 # 🛡️ CI Linting Strategy
 
-We aim for consistent, fast, and unified linting across all repositories in the CoderBunker-CA ecosystem.
+We aim for consistent, fast, and unified linting across all repositories in the coderbunker-ca ecosystem.
 
 ## Core Philosophy
 

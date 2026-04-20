@@ -1,6 +1,6 @@
 # 🚀 Unified Release Process
 
-All repositories in the CoderBunker-CA project follow a standardized release and tagging policy to ensure predictable deployments and reliable GitOps automation.
+All repositories in the coderbunker-ca project follow a standardized release and tagging policy to ensure predictable deployments and reliable GitOps automation.
 
 ## 🏷️ Tagging Policy Summary
 

@@ -1,6 +1,6 @@
-# CoderBunker-CA Shared Environment
+# coderbunker-ca Shared Environment
 
-This repository centralizes the development environment for both the frontend and backend of the CoderBunker-CA project.
+This repository centralizes the development environment for both the frontend and backend of the coderbunker-ca project.
 
 ## Overview
 
