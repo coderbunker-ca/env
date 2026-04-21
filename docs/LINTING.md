@@ -1,6 +1,6 @@
 # 🛡️ CI Linting Strategy
 
-We aim for consistent, fast, and unified linting across all repositories in the coderbunker-ca ecosystem.
+We aim for consistent, fast, and unified linting across all repositories in the labmtl ecosystem.
 
 ## Core Philosophy
 
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Environment
-        uses: coderbunker-ca/env/.github/actions/setup-env@main
+        uses: labmtl/env/.github/actions/setup-env@main
         with:
           install_deps: true # Only if you have local hooks like eslint
           github_access_token: ${{ secrets.GITHUB_TOKEN }}

@@ -15,7 +15,7 @@ inputs:
   registry_path:
     description: Registry path/project
     required: false
-    default: cv.coderbunker.ca
+    default: cv.labmtl.ca
   image_name:
     description: Name of the image (without registry or path)
     required: false
@@ -57,7 +57,7 @@ runs:
 
     - name: Generate Tags
       id: tagger
-      uses: coderbunker-ca/env/.github/actions/docker-tag-generator@main
+      uses: labmtl/env/.github/actions/docker-tag-generator@main
       with:
         new_release_version: ${{ inputs.version }}
         is_new_release: ${{ inputs.is_new_release }}

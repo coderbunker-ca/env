@@ -33,7 +33,7 @@ runs:
         fi
 
     - name: Setup Nix & Load Environment
-      uses: coderbunker-ca/env/.github/actions/setup-nix-env@main
+      uses: labmtl/env/.github/actions/setup-nix-env@main
       with:
         github_access_token: ${{ inputs.github_access_token }}
         working_directory: ${{ inputs.working_directory }}
@@ -56,7 +56,7 @@ runs:
         bun-version: latest
 
     - name: Setup Bun Registry & Deps
-      uses: coderbunker-ca/env/.github/actions/setup-bun-env@main
+      uses: labmtl/env/.github/actions/setup-bun-env@main
       env:
         NODE_AUTH_TOKEN: ${{ inputs.github_access_token }}
       with:

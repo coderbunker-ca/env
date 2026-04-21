@@ -10,7 +10,7 @@ inputs:
     required: false
     default: "N/A"
   image_name:
-    description: "The full image name without tags (e.g. w90vyjm8.c1.bhs5.container-registry.ovh.net/cv.coderbunker.ca/cv)"
+    description: "The full image name without tags (e.g. w90vyjm8.c1.bhs5.container-registry.ovh.net/cv.labmtl.ca/cv)"
     required: false
   registry:
     description: "Registry hostname"
@@ -19,7 +19,7 @@ inputs:
   registry_path:
     description: "Registry path/project"
     required: false
-    default: "cv.coderbunker.ca"
+    default: "cv.labmtl.ca"
   tags:
     description: "Newline separated list of tags pushed"
     required: false

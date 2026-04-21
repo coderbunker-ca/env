@@ -1,6 +1,6 @@
 # 🚀 Unified Release Process
 
-All repositories in the coderbunker-ca project follow a standardized release and tagging policy to ensure predictable deployments and reliable GitOps automation.
+All repositories in the labmtl project follow a standardized release and tagging policy to ensure predictable deployments and reliable GitOps automation.
 
 ## 🏷️ Tagging Policy Summary
 
@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Environment
-        uses: coderbunker-ca/env/.github/actions/setup-env@main
+        uses: labmtl/env/.github/actions/setup-env@main
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Lint
@@ -38,16 +38,16 @@ jobs:
         run: bun run test
 
   release:
-    uses: coderbunker-ca/env/.github/workflows/semantic-release.yml@main
+    uses: labmtl/env/.github/workflows/semantic-release.yml@main
     needs: lint-test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     secrets: inherit
 
   docker:
-    uses: coderbunker-ca/env/.github/workflows/docker-ci.yml@main
+    uses: labmtl/env/.github/workflows/docker-ci.yml@main
     needs: [lint-test, release]
     with:
-      image_path: cv.coderbunker.ca/your-repo-name
+      image_path: cv.labmtl.ca/your-repo-name
       version: ${{ needs.release.outputs.new_release_version || '0.0.0' }}
       is_new_release: ${{ needs.release.outputs.new_release_published == 'true' }}
     secrets: inherit
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Notification
-        uses: coderbunker-ca/env/.github/actions/post-build-notification@main
+        uses: labmtl/env/.github/actions/post-build-notification@main
         with:
           build_result: ${{ needs.docker.result }}
           version: ${{ needs.release.outputs.new_release_version || 'N/A' }}

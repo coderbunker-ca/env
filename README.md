@@ -1,6 +1,6 @@
-# coderbunker-ca Shared Environment
+# labmtl Shared Environment
 
-This repository centralizes the development environment for both the frontend and backend of the coderbunker-ca project.
+This repository centralizes the development environment for both the frontend and backend of the labmtl project.
 
 ## Overview
 

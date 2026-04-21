@@ -1,6 +1,6 @@
-# coderbunker-ca: Technical Achievements & Problems Solved
+# labmtl: Technical Achievements & Problems Solved
 
-This document summarizes the key technical milestones and architectural problems solved during the development of the coderbunker-ca project.
+This document summarizes the key technical milestones and architectural problems solved during the development of the labmtl project.
 
 ## 🏗️ Infrastructure & DevOps
 
@@ -38,7 +38,7 @@ This document summarizes the key technical milestones and architectural problems
 - **Achievement**: Implemented a cluster-wide SSO gateway using `oauth2-proxy` and Google SSO.
 - **Problem Solved**: Protecting internal tools (Grafana, Admin Portal) without individual auth logic in every service.
 - **Key Fixes**:
-  - **Shared Sessions**: Configured `.coderbunker.ca` cookie domain to allow single sign-on across all subdomains.
+  - **Shared Sessions**: Configured `.labmtl.ca` cookie domain to allow single sign-on across all subdomains.
   - **CORS/AJAX Protection**: Solved the "OIDC loop" for API calls by configuring `oauth2-proxy` to skip auth for `OPTIONS` preflight requests.
 
 ## 💾 Storage & Data
@@ -70,7 +70,7 @@ This document summarizes the key technical milestones and architectural problems
 ### 10. AI-Powered Extraction (Docling & MCP)
 
 - **Achievement**: Integrated **Docling API** for high-fidelity PDF-to-Markdown conversion.
-- **Feature**: Implementation of the **Model Context Protocol (MCP)** to allow AI tools to interact directly with the coderbunker-ca backend.
+- **Feature**: Implementation of the **Model Context Protocol (MCP)** to allow AI tools to interact directly with the labmtl backend.
 
 ---
 *This summary was compiled from existing project documentation and changelogs.*

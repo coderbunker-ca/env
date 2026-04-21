@@ -7,7 +7,7 @@ outputs:
     value: w90vyjm8.c1.bhs5.container-registry.ovh.net
   registry_path:
     description: Registry path/project
-    value: cv.coderbunker.ca
+    value: cv.labmtl.ca
 
 runs:
   using: composite
@@ -16,4 +16,4 @@ runs:
       shell: bash
       run: |
         echo "Registry: w90vyjm8.c1.bhs5.container-registry.ovh.net"
-        echo "Registry Path: cv.coderbunker.ca"
+        echo "Registry Path: cv.labmtl.ca"

@@ -1,5 +1,5 @@
 {
-  description = "coderbunker-ca Shared Development Environment";
+  description = "labmtl Shared Development Environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -135,7 +135,7 @@
                 log_interactive "\033[1;32m+ SOPS Age Key found at: $SOPS_AGE_KEY_FILE\033[0m"
               else
                 log_interactive "\033[1;33mWarning: SOPS age key not found at ~/.config/sops/age/keys.txt\033[0m"
-                log_interactive "To configure SOPS, see: \033[1;34mhttps://github.com/coderbunker-ca/env/blob/main/docs/SOPS.md\033[0m"
+                log_interactive "To configure SOPS, see: \033[1;34mhttps://github.com/labmtl/env/blob/main/docs/SOPS.md\033[0m"
               fi
             '';
             setupHooks = ''
@@ -189,7 +189,7 @@
               ${lib.sopsHook}
               ${lib.setupHooks}
 
-              log_interactive "\033[1;32mcoderbunker-ca Shared Development Environment Loaded\033[0m"
+              log_interactive "\033[1;32mlabmtl Shared Development Environment Loaded\033[0m"
             '';
           };
 

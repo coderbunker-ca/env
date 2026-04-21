@@ -16,7 +16,7 @@ jobs:
       - name: Checkout Environment Repository
         uses: actions/checkout@v5
         with:
-          repository: coderbunker-ca/env
+          repository: labmtl/env
           token: ${{ secrets.GITHUB_TOKEN }}
           path: env-repo
           ref: main

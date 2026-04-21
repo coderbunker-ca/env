@@ -12,7 +12,7 @@ To use this shared environment in your project (e.g., `cv` or `cv-backend`), upd
 
   inputs = {
     # Point to the shared environment repository
-    modern-env.url = "github:coderbunker-ca/env";
+    modern-env.url = "github:labmtl/env";
   };
 
   outputs = { self, modern-env }: {
@@ -63,7 +63,7 @@ nix develop
 Or if you use `direnv`, create an `.envrc` file:
 
 ```bash
-use flake github:coderbunker-ca/env
+use flake github:labmtl/env
 ```
 
 ## 4. Shell Performance Optimization

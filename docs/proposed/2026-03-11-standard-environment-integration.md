@@ -19,7 +19,7 @@ We prioritize using established industry tools (like Docker Compose Watch and Te
 
 ## 2. Goal
 
-Establish a consistent, secure, and easy-to-use development environment across all coderbunker-ca repositories. This standardizes how developers bring up infrastructure, run fullstack systems, execute tests, and manage secrets.
+Establish a consistent, secure, and easy-to-use development environment across all labmtl repositories. This standardizes how developers bring up infrastructure, run fullstack systems, execute tests, and manage secrets.
 
 ## 3. Shared Secret Management & Overrides
 

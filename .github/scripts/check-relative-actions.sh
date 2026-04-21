@@ -11,7 +11,7 @@ HAS_ERROR=0
 for file in "$@"; do
 	if grep -E -n "^[[:space:]]+uses:[[:space:]]+\./\.github/actions" "$file"; then
 		echo "::error file=$file::Relative action paths (uses: ./.github/actions/...) are not allowed."
-		echo "Please use absolute paths instead: coderbunker-ca/env/.github/actions/...@main"
+		echo "Please use absolute paths instead: labmtl/env/.github/actions/...@main"
 		HAS_ERROR=1
 	fi
 done

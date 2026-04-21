@@ -32,7 +32,7 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Cache
-        uses: coderbunker-ca/env/.github/actions/setup-nix-env@main
+        uses: labmtl/env/.github/actions/setup-nix-env@main
 
       - name: Run pre-commit
         run: nix develop --command pre-commit run --all-files

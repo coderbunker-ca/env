@@ -52,7 +52,7 @@ runs:
     - name: Get Fallback Version
       id: fallback
       if: steps.semantic.outputs.new_release_published != 'true'
-      uses: coderbunker-ca/env/.github/actions/get-version@main
+      uses: labmtl/env/.github/actions/get-version@main
 
     - name: Determine Final Version
       id: final_version

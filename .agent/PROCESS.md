@@ -1,13 +1,13 @@
-# coderbunker-ca Development Process & Rules
+# labmtl Development Process & Rules
 
-This document defines the core philosophy, technical standards, and rules of engagement for AI agents and human developers working across the coderbunker-ca project suite.
+This document defines the core philosophy, technical standards, and rules of engagement for AI agents and human developers working across the labmtl project suite.
 
 ## 1. Rules of Engagement (Agent-User Collaboration)
 
 ### **Conversation Kick-off**
 
 - When starting a new work conversation, the agent **MUST** notify the user that it has loaded the centralized development process into the current context and is aware of the team-specific guidelines.
-- Always reference the document using its public URL: `https://github.com/coderbunker-ca/env/blob/main/.agent/PROCESS.md` (not the local file path).
+- Always reference the document using its public URL: `https://github.com/labmtl/env/blob/main/.agent/PROCESS.md` (not the local file path).
 
 ### **No Automatic Commits or Pushes**
 
